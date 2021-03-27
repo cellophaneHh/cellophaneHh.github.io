@@ -71,6 +71,72 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-力扣-旋转链表" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/27/%E5%8A%9B%E6%89%A3-%E6%97%8B%E8%BD%AC%E9%93%BE%E8%A1%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-03-27T15:04:04.000Z" itemprop="datePublished">2021-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/27/%E5%8A%9B%E6%89%A3-%E6%97%8B%E8%BD%AC%E9%93%BE%E8%A1%A8/">力扣-旋转链表</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个链表的头节点 head ，旋转链表，将链表每个节点向右移动 k 个位置。</p>
+<p>示例 1：</p>
+<p><img src="images/%E5%8A%9B%E6%89%A3-%E6%97%8B%E8%BD%AC%E9%93%BE%E8%A1%A8/rotate1.jpg"></p>
+<p>输入：head = [1,2,3,4,5], k = 2<br>输出：[4,5,1,2,3]<br>示例 2：</p>
+<p><img src="images/%E5%8A%9B%E6%89%A3-%E6%97%8B%E8%BD%AC%E9%93%BE%E8%A1%A8/roate2.jpg"></p>
+<p>输入：head = [0,1,2], k = 4<br>输出：[2,0,1]</p>
+<p>提示：</p>
+<p>链表中节点的数目在范围 [0, 500] 内<br>-100 &lt;= Node.val &lt;= 100<br>0 &lt;= k &lt;= 2 * 109</p>
+<p>来源：力扣（LeetCode）<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/rotate-list">https://leetcode-cn.com/problems/rotate-list</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h2 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h2><p>根据题目所述, 只要依次将链表最后一个节点变成头节点k次即可满足要求. 但是问题在于<strong>单向链表, 由于不知道k, 不知道尾节点会断开几次, 如果k很大, 多次从头遍历链表效率很低</strong>.</p>
+<p>解决思路:  将单向链表尾首相连, 根据k值, 计算头节点移动到下一个头节点时的步数, 在相应的地方断开链接即可.</p>
+<p>k值计算, 设链表长度尾n:</p>
+<ol>
+<li>k &gt; n, 则 当前头节点走到下一个头节点需要的步数为 n - k % n;</li>
+<li>k &lt;=n, 则当前头节点走到下一个头节点需要的步数为 n - k;</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode() &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int val) &#123; this.val = val; &#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">rotateRight</span><span class="params">(ListNode head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (k &lt;= <span class="number">0</span> || head == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将首尾相连,闭合成一个环</span></span><br><span class="line">        ListNode cur = head;</span><br><span class="line">        <span class="keyword">int</span> n = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(cur.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">            n++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 单独一个节点</span></span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算实际走几步到下一个头节点, 由于当前头节点需要走到下一个头节点之前,实际步数需要减1</span></span><br><span class="line">        <span class="keyword">int</span> step = k &gt; n ? n - k % n : n - k;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 不需要移动</span></span><br><span class="line">        <span class="keyword">if</span> (step == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 需要移动时,先成环</span></span><br><span class="line">        cur.next = head;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(--step &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            head = head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode nextHead = head.next;</span><br><span class="line">        head.next = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> nextHead;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>易错点:</strong></p>
+<ol>
+<li>当单独只有一个节点时, 不要成环,直接返回</li>
+<li>当step==0时, 不需要移动, 直接返回</li>
+<li>step是从当前头节点位置移动到下一个头节点位置的步数, 由于需要断开尾节点和头节点的链接,实际上当前头节点走的步数需要减1</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cellophanehh.github.io/2021/03/27/%E5%8A%9B%E6%89%A3-%E6%97%8B%E8%BD%AC%E9%93%BE%E8%A1%A8/" data-id="ckmrvtc3w00005ruhdij86343" data-title="力扣-旋转链表" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-力扣-括号生成" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/03/26/%E5%8A%9B%E6%89%A3-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/" class="article-date">
@@ -264,6 +330,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/03/27/%E5%8A%9B%E6%89%A3-%E6%97%8B%E8%BD%AC%E9%93%BE%E8%A1%A8/">力扣-旋转链表</a>
+          </li>
         
           <li>
             <a href="/2021/03/26/%E5%8A%9B%E6%89%A3-%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/">力扣-括号生成</a>
